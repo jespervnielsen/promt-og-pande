@@ -69,7 +69,7 @@ function generateRecipesJson() {
         };
     });
     
-    // Sort recipes alphabetically by title
+    // Sort recipes alphabetically by title (using Danish locale for proper sorting)
     recipes.sort((a, b) => a.title.localeCompare(b.title, 'da'));
     
     // Write the JSON file

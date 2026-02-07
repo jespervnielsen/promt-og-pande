@@ -30,5 +30,5 @@ Lad køle af
 
 Noter:
 
-Mangler salt \- overvej fond i stedet for vand
+Mangler salt - overvej fond i stedet for vand
 
