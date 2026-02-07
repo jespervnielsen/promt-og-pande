@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * Script to generate recipes.json from markdown files in the recipes directory
+ * Script to generate recipes.json from markdown files in the docs/recipes directory
  * This file contains metadata about all available recipes for the static site
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const RECIPES_DIR = path.join(__dirname, '..', 'recipes');
+const RECIPES_DIR = path.join(__dirname, '..', 'docs', 'recipes');
 const OUTPUT_FILE = path.join(__dirname, '..', 'docs', 'recipes.json');
-const DOCS_RECIPES_DIR = path.join(__dirname, '..', 'docs', 'recipes');
 
 function extractTitle(markdown) {
     // Try to extract the first H1 heading
@@ -37,10 +36,10 @@ function extractTitle(markdown) {
 function generateRecipesJson() {
     console.log('Generating recipes.json...');
     
-    // Create docs/recipes directory if it doesn't exist
-    if (!fs.existsSync(DOCS_RECIPES_DIR)) {
-        fs.mkdirSync(DOCS_RECIPES_DIR, { recursive: true });
-        console.log('Created docs/recipes directory');
+    // Ensure the recipes directory exists
+    if (!fs.existsSync(RECIPES_DIR)) {
+        console.error(`Error: Recipes directory not found at ${RECIPES_DIR}`);
+        process.exit(1);
     }
     
     // Read all files from the recipes directory
@@ -54,10 +53,6 @@ function generateRecipesJson() {
     const recipes = markdownFiles.map(file => {
         const filePath = path.join(RECIPES_DIR, file);
         const content = fs.readFileSync(filePath, 'utf-8');
-        
-        // Copy the markdown file to docs/recipes
-        const destPath = path.join(DOCS_RECIPES_DIR, file);
-        fs.copyFileSync(filePath, destPath);
         
         // Extract the title from the markdown content
         const title = extractTitle(content);
@@ -81,7 +76,6 @@ function generateRecipesJson() {
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(recipes, null, 2), 'utf-8');
     
     console.log(`\nSuccessfully generated ${OUTPUT_FILE}`);
-    console.log(`Copied ${recipes.length} recipe files to ${DOCS_RECIPES_DIR}`);
     console.log(`Total recipes: ${recipes.length}`);
 }
 
