@@ -1,0 +1,44 @@
+name: Update Recipes
+
+# Run this workflow when recipes are added or modified
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/recipes/*.md'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-recipes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Need write permission to commit and push changes
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Generate recipes.json
+        run: node scripts/generate-recipes-json.js
+      
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code docs/recipes.json || echo "changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push if changed
+        if: steps.git-check.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/recipes.json
+          git commit -m "Auto-update recipes.json [skip ci]"
+          git push
