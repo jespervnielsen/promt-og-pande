@@ -76,6 +76,8 @@ async function loadRecipe() {
         const markdown = await response.text();
         
         // Convert markdown to HTML using marked.js
+        // Note: This is safe for static sites where recipes are committed to the repo
+        // by trusted maintainers. For user-submitted content, sanitization would be required.
         const html = marked.parse(markdown);
         
         recipeContent.innerHTML = html;
