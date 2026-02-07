@@ -89,7 +89,7 @@ async function loadRecipe() {
         // Update page title if there's an h1
         const h1 = recipeContent.querySelector('h1');
         if (h1) {
-            document.title = `${h1.textContent} - Promt & Pande`;
+            document.title = `${h1.textContent} - Prompt & Pande`;
         }
         
     } catch (error) {
