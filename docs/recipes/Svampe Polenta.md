@@ -1,6 +1,4 @@
-Titel
-
-Min lækre ret med svampe
+# Min lækre ret med svampe
 
 Tid:
 
@@ -28,7 +26,7 @@ Kog i 15min
 
 Lad køle af
 
-Noter:
+### Noter:
 
 Mangler salt \- overvej fond i stedet for vand
 
