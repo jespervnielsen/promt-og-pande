@@ -1,10 +1,5 @@
 // Simple recipe site JavaScript
 
-// List of available recipes (add more recipes here)
-const RECIPES = [
-    { name: 'example', title: 'Eksempel Opskrift' }
-];
-
 // Initialize the page based on current location
 document.addEventListener('DOMContentLoaded', () => {
     const isRecipePage = window.location.pathname.includes('recipe.html');
@@ -17,28 +12,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Load and display the list of recipes
-function loadRecipeList() {
+async function loadRecipeList() {
     const recipesList = document.getElementById('recipes-list');
     
     if (!recipesList) return;
     
-    // Clear loading message
-    recipesList.innerHTML = '';
-    
-    // Create recipe cards
-    RECIPES.forEach(recipe => {
-        const card = document.createElement('div');
-        card.className = 'recipe-card';
+    try {
+        // Fetch the recipes.json file
+        const response = await fetch('recipes.json');
         
-        card.innerHTML = `
-            <h3>${recipe.title}</h3>
-            <a href="recipe.html?name=${recipe.name}" class="recipe-link">
-                Se opskrift →
-            </a>
-        `;
+        if (!response.ok) {
+            throw new Error('Kunne ikke indlæse opskriftsliste');
+        }
         
-        recipesList.appendChild(card);
-    });
+        const recipes = await response.json();
+        
+        // Clear loading message
+        recipesList.innerHTML = '';
+        
+        if (recipes.length === 0) {
+            recipesList.innerHTML = '<p class="loading">Ingen opskrifter fundet endnu.</p>';
+            return;
+        }
+        
+        // Create recipe cards
+        recipes.forEach(recipe => {
+            const card = document.createElement('div');
+            card.className = 'recipe-card';
+            
+            card.innerHTML = `
+                <h3>${recipe.title}</h3>
+                <a href="recipe.html?name=${encodeURIComponent(recipe.name)}" class="recipe-link">
+                    Se opskrift →
+                </a>
+            `;
+            
+            recipesList.appendChild(card);
+        });
+    } catch (error) {
+        recipesList.innerHTML = `<p class="error">Kunne ikke indlæse opskrifter: ${error.message}</p>`;
+    }
 }
 
 // Load and display a single recipe
@@ -57,17 +70,8 @@ async function loadRecipe() {
     }
     
     try {
-        // Fetch the markdown file
-        // Try relative path first, then absolute path for GitHub Pages
-        let response = await fetch(`../recipes/${recipeName}.md`);
-        
-        // If relative path fails, try absolute path for GitHub Pages
-        if (!response.ok) {
-            const repoName = window.location.pathname.split('/')[1];
-            if (repoName && repoName !== 'recipe.html') {
-                response = await fetch(`/${repoName}/recipes/${recipeName}.md`);
-            }
-        }
+        // Fetch the markdown file from the recipes directory
+        const response = await fetch(`recipes/${encodeURIComponent(recipeName)}.md`);
         
         if (!response.ok) {
             throw new Error('Opskrift ikke fundet');
