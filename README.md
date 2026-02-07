@@ -1,10 +1,10 @@
-# 🍳 Promt & Pande
+# 🍳 Prompt & Pande
 
 A minimal static recipe site for GitHub Pages.
 
 ## About
 
-"Promt & Pande" (Prompt & Pan) is a simple, cozy recipe website built with plain HTML, CSS, and JavaScript. It features a clean kitchen-inspired design and uses markdown files for easy recipe management.
+"Prompt & Pande" (Prompt & Pan) is a simple, cozy recipe website built with plain HTML, CSS, and JavaScript. It features a clean kitchen-inspired design and uses markdown files for easy recipe management.
 
 ## Features
 
