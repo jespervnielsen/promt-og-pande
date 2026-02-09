@@ -1,5 +1,7 @@
 # 🍳 Prompt & Pande
 
+https://jespervnielsen.github.io/promt-og-pande/
+
 A minimal static recipe site for GitHub Pages.
 
 ## About
