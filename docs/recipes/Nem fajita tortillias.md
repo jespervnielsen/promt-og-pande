@@ -2,7 +2,8 @@
 
 **Nem til gæster på hverdage**
 
-**![][image1]**
+**![][image1]**  
+*\*AI genereret billede*
 
 **Tid:** 30 min
 
@@ -10,7 +11,7 @@
 
 **Ingredienser**
 
-* 2 poser fajitamix (Rema1000 frost)  
+* 2 poser grønsags fajitamix (Rema1000 frost)  
 * 3-400 g kylling / fake-kylling  
 * 1 ds hakkede tomater  
 * 6-8 tortillas (1 pakke)  
